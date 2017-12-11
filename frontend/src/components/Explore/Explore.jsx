@@ -8,15 +8,6 @@ import ExploreCard from './ExploreCard.jsx'
 
 import styles from './styles.scss'
 
-const options_sort = [
-  { key: 1, text: 'Sort By Expenses', value: "by_expenses"},
-  { key: 2, text: 'Sort By Days', value: "by_days"}
-]
-const options_order = [
-  { key: 1, text: 'Sort In Descending Order', value: "dsc"},
-  { key: 2, text: 'Sort In Ascending Order', value: "asc"}
-]
-
 const options1 = [
   {
     key: '1',
@@ -61,14 +52,36 @@ class Explore extends Component {
         model: false,
         showingInfoWindow: false,
         activeMarker: {},
+        city: '',
+        quote: '',
+        say: ''
       }
+      this.quotes = {
+        "Chicago" : ["Eventually, I think Chicago will be the most beautiful great city left in the world.", "Frank Lloyd Wright"],
+        "Los Angles": ["All life is inherently dangerous. But beyond that, Los Angeles is just a wonderful place to be.", "John Gregory Dunne"],
+        "Paris": ["But Paris was a very old city and we were young and nothing was simple there, not even poverty, nor sudden money, nor the moonlight, nor right and wrong nor the breathing of someone who lay beside you in the moonlight.", " Ernest Hemingway"],
+        "New York":["One belongs to New York instantly, one belongs to it as much in five minutes as in five years.", "Tom Wolfe"],
+        "Barcelona": ["Barcelona is a very old city in which you can feel the weight of history; it is haunted by history. You cannot walk around it without perceiving it.", "Carlos Ruiz Zafón"],
+        "Tokyo": ["You'll be going back to Tokyo before much longer, And you'll return to real life. You need to live life to the fullest. No matter how shallow and dull things might get, this life is worth living. I guarantee it.", "Haruki Murakami"],
+        "Beijing": ["Nobody is right and nobody is wrong. Only one thing is right, and that is the Truth, but nobody knows what it is. It is a thing that changes all the time, and then comes back to the same thing", "Lin Yutang, Moment in Peking"],
+        "Rome": ["I found Rome a city of bricks and left it a city of marble.", "Augustus"],
+        "London": ["When a man is tired of London, he is tired of life; for there is in London all that life can afford.", "Samuel Johnson"],
+        "San Francisco": ["That's one of the things I like about San Francisco. It's not like anywhere else in the world.", "Tracy Chapman"],
+        "Champaign": ["Champaign is notable for sharing the campus of the University of Illinois at Urbana–Champaign with its sister city of Urbana.", "Wikipedia"],
+        "Istanbul": ["If one had but a single glance to give the world, one should gaze on Istanbul.", "Alphonse de Lamartine"],
+        "Jerusalem": ["The view of Jerusalem is the history of the world; it is more, it is the history of earth and of heaven.", "Benjamin Disraeli"],
+        "Vienna": ["Vienna is the gate to Eastern Europe.", "Niki Lauda"],
+        "Sydney": ["If Paris is a city of lights, Sydney is the city of fireworks.", "Baz Luhrmann"],
+        "Other": ["The gladdest moment in human life, me thinks, is a departure into unknown lands.", "Sir Richard Burton"]
+      };
       this.minm = 0;
       this.maxm = 999999999;
       this.mind = 0;
       this.maxd = 999999999;
-      this.sort_1 = this.sort_1.bind(this);
       this.lat = 31.8566;
       this.lng = -88.3522;
+      this.sort1 = 'by_expenses';
+      this.sort2 = 'Descending';
       this.onMarkerClick = this.onMarkerClick.bind(this);
       this.onMapClicked = this.onMapClicked.bind(this);
       this.search = this.search.bind(this);
@@ -78,6 +91,8 @@ class Explore extends Component {
       this.day_c2 = this.day_c2.bind(this);
       this.getmore = this.getmore.bind(this);
       this.close = this.close.bind(this);
+      this.sort_1 = this.sort_1.bind(this);
+      this.sort_2 = this.sort_2.bind(this);
       this.onClickChange = this.onClickChange.bind(this);
   }
 
@@ -157,22 +172,58 @@ class Explore extends Component {
     this.maxd = e.target.value;
   }
 
+  close() {
+    this.setState({
+      model: false
+    });
+  }
+
   sort_1(e){
     console.log(e);
-    this.sort_1 = e;
+    this.sort1 = e;
+    let content = this.state.model_content;
+    if (this.sort1 == 'by_expenses' && this.sort2 == 'Descending') {
+      content.sort(function(a,b) {
+        return a.money < b.money;
+      });
+    } else if (this.sort1 == 'by_expenses' && this.sort2 == 'Ascending') {
+      content.sort(function(a,b) {
+        return a.money > b.money;
+      });
+    } else if (this.sort1 == 'by_days' && this.sort2 == 'Descending') {
+      content.sort(function(a,b) {
+        return a.day < b.day;
+      });
+    } else {
+      content.sort(function(a,b) {
+        return a.day > b.day;
+      });
+    }
     this.setState({});
   }
 
   sort_2(e){
     console.log(e);
-    this.sort_2 = e;
+    this.sort2 = e;
+    let content = this.state.model_content;
+    if (this.sort1 == 'by_expenses' && this.sort2 == 'Descending') {
+      content.sort(function(a,b) {
+        return a.money < b.money;
+      });
+    } else if (this.sort1 == 'by_expenses' && this.sort2 == 'Ascending') {
+      content.sort(function(a,b) {
+        return a.money > b.money;
+      });
+    } else if (this.sort1 == 'by_days' && this.sort2 == 'Descending') {
+      content.sort(function(a,b) {
+        return a.day < b.day;
+      });
+    } else {
+      content.sort(function(a,b) {
+        return a.day > b.day;
+      });
+    }
     this.setState({});
-  }
-
-  close() {
-    this.setState({
-      model: false
-    });
   }
 
   getmore() {
@@ -186,13 +237,26 @@ class Explore extends Component {
     }
     console.log(temp_content);
     temp_content.sort(function(a,b) {
-      return a.card_name.toLowerCase() > b.card_name.toLowerCase();
+      return a.money < b.money;
     });
+    let city1 = this.state.marker_con.city_name;
+    let quote1;
+    let say1;
+    if (this.quotes[city1] == null) {
+      quote1 = this.quotes["Other"][0];
+      say1 = this.quotes["Other"][1];
+    } else {
+      quote1 = this.quotes[city1][0];
+      say1 = this.quotes[city1][1];
+    }
     this.lat = this.state.marker_con.Latitude;
     this.lng = this.state.marker_con.Longitude;
     this.setState({
       model_content: temp_content,
-      model: true
+      model: true,
+      city: city1,
+      quote: quote1,
+      say: say1
     });
   }
 
@@ -253,20 +317,6 @@ class Explore extends Component {
         zIndex: '100'
       }
 
-      const dropdown1 = {
-        position: 'absolute',
-        top: '10%',
-        left: '7%',
-        zIndex: '100'
-      }
-
-      const dropdown2 = {
-        position: 'absolute',
-        top: '10%',
-        left: '37%',
-        zIndex: '100'
-      }
-
       const extra = (
         <div>
           <h5 className = "spend">Spend:&nbsp;${this.state.marker_con.money}</h5>
@@ -274,28 +324,41 @@ class Explore extends Component {
         </div>
       )
 
+      const dropdown1 = {
+        position: 'absolute',
+        top: '10%',
+        left: '4%',
+        zIndex: '100'
+      }
+
+      const dropdown2 = {
+        position: 'absolute',
+        top: '10%',
+        left: '27%',
+        zIndex: '100'
+      }
+
       if (this.state.model) {
         return(
           <div>
             <Navbar/>
-              <Header as='h4' style = {dropdown1} >
-                <Icon name='trophy' />
-                <Header.Content>
-                  Trending repos
-                  {' '}
-                  <Dropdown options={options1} defaultValue={options1[0].value} onChange = {(event, data) => this.sort_1(data.value)}/>
-                </Header.Content>
-              </Header>
+            <Header as='h4' style = {dropdown1} >
+              <Icon name='trophy' />
+              <Header.Content>
+                Trending repos
+                {' '}
+                <Dropdown options={options1} defaultValue={options1[0].value} onChange = {(event, data) => this.sort_1(data.value)}/>
+              </Header.Content>
+            </Header>
 
-              <Header as='h4' style = {dropdown2} >
-                <Icon name='trophy' />
-                <Header.Content>
-                  Trending repos
-                  {' '}
-                  <Dropdown options={options2} defaultValue={options2[0].value} onChange = {(event, data) => this.sort_2(data.value)}/>
-                </Header.Content>
-              </Header>
-
+            <Header as='h4' style = {dropdown2} >
+              <Icon name='trophy' />
+              <Header.Content>
+                Trending repos
+                {' '}
+                <Dropdown options={options2} defaultValue={options2[0].value} onChange = {(event, data) => this.sort_2(data.value)}/>
+              </Header.Content>
+            </Header>
             <div className = "bac">
               <Button className = "close" onClick = {this.close}>
                 Go Back
@@ -320,10 +383,13 @@ class Explore extends Component {
 
             <div className = "art">
                 <p className = "city">
-                  Paris
+                  {this.state.city}
                 </p>
                 <p className = "quote">
-                  Fuck every day
+                  {this.state.quote}
+                </p>
+                <p className = "say">
+                  {this.state.say}
                 </p>
             </div>
 
