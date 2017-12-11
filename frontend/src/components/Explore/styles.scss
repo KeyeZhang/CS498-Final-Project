@@ -8,12 +8,25 @@ html, body {
   padding: 0;
 }
 
-
 .mar {
   position: absolute;
-  bottom: 5%;
+  top: 20%;
   left: 73%;
   overflow: auto;
+}
+
+.mar1 {
+  position: absolute;
+  top: 20%;
+  left: 73%;
+  overflow: auto;
+  animation-name: move;
+  animation-duration: 1s;
+}
+
+@keyframes move {
+  from {left: 93%;}
+    to {left: 73%;}
 }
 
 .des {
@@ -30,7 +43,7 @@ html, body {
 
 .model {
   position: absolute;
-  left: 10%;
+  left: 5%;
   width: 80%;
   height: 90%;
   padding-left: 4%;
@@ -41,9 +54,9 @@ html, body {
 
 .bac {
   position: absolute;
-  top: 15%;
+  top: 20%;
   left: 3%;
-  height: 80%;
+  height: 75%;
   width: 67%;
   background: rgba(255,255,255,0.7);
   z-index: 90;
@@ -53,9 +66,16 @@ html, body {
     display: none;
 }
 
+.close {
+  position: absolute;
+  top: 5%;
+  right: 2%;
+}
+
 .close:hover {
   cursor: pointer;
 }
+
 
 // <Item className = "info">
 //     <Item.Image size='medium' src={this.state.marker_con.picture} />

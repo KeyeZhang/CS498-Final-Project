@@ -3,3 +3,4 @@ export const FETCH_CARDS = 'fetch_cards';
 export const FETCH_FOLLOWINGS = 'fetch_followings';
 export const FETCH_FOLLOWERS = 'fetch_follwers';
 export const DELETE_CARDS = 'delete_cards'
+export const CHECK_IF_FAV = 'check_if_fav'

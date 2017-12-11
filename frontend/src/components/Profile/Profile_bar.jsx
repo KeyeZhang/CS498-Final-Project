@@ -39,7 +39,7 @@ class ProfileBar extends Component {
                       <Button.Group widths='5' basic>
                         <Button as={Link} to='/profile'>Gallery</Button>
                         <Button as={Link} to='/profile/settings'>Settings</Button>
-                        <Button as={Link} to='/profile/follower'>Followers</Button>
+                        <Button as={Link} to='/profile/favorite'>Favorite</Button>
                         <Button as={Link} to='/profile/following'>Following</Button>
                       </Button.Group>
 

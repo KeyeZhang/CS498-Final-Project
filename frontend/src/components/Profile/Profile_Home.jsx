@@ -13,6 +13,7 @@ import CardNew from './UploadCard/CardNew.jsx'
 import ProfileFollowing from './Following.jsx'
 import ProfileFollower from './Follower.jsx'
 import ProfileSettings from './Profile_Settings.jsx'
+import FavoriteList from './Favorite/FavoriteList.jsx'
 import scriptLoader from 'react-async-script-loader'
 
 import styles from './styles.scss'
@@ -51,7 +52,7 @@ class Profile extends Component {
                       <Profilebar/>
                       <Route exact path="/profile" component={CardList}/>
                       <Route exact path="/profile/following" component={ProfileFollowing}/>
-                      <Route exact path="/profile/follower" component={ProfileFollower}/>
+                      <Route exact path="/profile/favorite" component={FavoriteList}/>
                       <Route exact path="/profile/settings" component={ProfileSettings}/>
                       <Route exact path="/profile/uploadcard" component={CardNew}/>
                     </div>
@@ -61,12 +62,7 @@ class Profile extends Component {
         } else {
             return(
                 <div className="Dashboard">
-                  <Card>
-                      <h1>You must log in before you can see this page.</h1>
-                      <Link to="/">
-                          Back
-                      </Link>
-                  </Card>
+                  
                 </div>
             )
         }

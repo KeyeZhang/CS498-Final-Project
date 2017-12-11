@@ -4,37 +4,25 @@ import { Button, Divider, Card, Grid, Image, Icon, Header, Modal} from 'semantic
 import { reduxForm, Field } from 'redux-form'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
-import { fetchCards, deleteCards } from '../../../actions';
+import { fetchFavoriteCards, cancelFavorite} from '../../../actions';
 
 import axios from 'axios'
 import NavBar from '../../Navbar/Navbar.jsx'
 import ProfileBar from '../Profile_bar.jsx'
-import CardFormField from './CardFormField.jsx'
-import formFields from './formFields.js'
 
 import styles from './styles.scss'
 
-class CardList extends Component {
+class FavoriteList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      modalOpen: false
+
     }
     this.renderCards = this.renderCards.bind(this);
-    this.handleOpen = this.handleOpen.bind(this);
-    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchCards();
-  }
-
-  handleOpen(){
-    this.setState({ modalOpen: true });
-  }
-
-  handleClose(){
-     this.setState({ modalOpen: false });
+    this.props.fetchFavoriteCards();
   }
 
   renderCards(){
@@ -64,28 +52,7 @@ class CardList extends Component {
           </Card.Content>
           <Card.Content extra>
 
-            <Modal
-              className = "modal"
-              trigger={<Button onClick={this.handleOpen}>Show Modal</Button>}
-              open={this.state.modalOpen}
-              onClose={this.handleClose}
-              basic
-              size='small'
-            >
-              <Header icon='browser' content='Cookies policy' />
-              <Modal.Content>
-                <h3>This website uses cookies to ensure the best user experience.</h3>
-              </Modal.Content>
-              <Modal.Actions>
-                <Button color='green' onClick={this.handleClose} >
-                   Got it
-                </Button>
-              </Modal.Actions>
-            </Modal>
-
-
-
-            <Button onClick = {() => this.props.deleteCards(card._id, this.props.history)} content='Delete' />
+            <Button onClick={() => this.props.cancelFavorite(card._id, this.props.history)} content='Unlike' />
           </Card.Content>
         </Card>;
       });
@@ -96,9 +63,6 @@ class CardList extends Component {
         <div className = 'cardlist'>
           {this.renderCards()}
 
-          <Link to = '/profile/uploadcard'>
-          <Button className = 'post-button' floated = 'right' circular icon='plus' color = 'teal' size = 'huge' />
-          </Link>
         </div>
       );
     }
@@ -106,7 +70,8 @@ class CardList extends Component {
 
 
   function mapStateToProps(state) {
-    return {cards: state.profile};
+    console.log(state);
+    return { cards: state.profile, iffavorite: state.iffavorite };
   }
 
-  export default connect(mapStateToProps, { fetchCards, deleteCards })(CardList);
+  export default connect(mapStateToProps, { fetchFavoriteCards, cancelFavorite})(FavoriteList);
