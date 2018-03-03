@@ -24,7 +24,7 @@ class Home extends Component {
 
             <Container text textAlign='center' style={{ marginTop: '-2em', marginBottom: '4em'}}>
               <div className="font">
-                <Header className = "font" as='h1' style={{ fontSize: '2em' }}>EXPLORE THE WONDERLANDS</Header>
+                <Header className = "font" as='h1' style={{ fontSize: '2em' }}>EXPLORE THE WONDERLANDSS</Header>
               </div>
             </Container>
 
@@ -57,7 +57,7 @@ class Home extends Component {
                   <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
                     <Header as='h3' className = "font" style={{ fontSize: '1.8em' }}>To get started...</Header>
                     <p className = "font" style={{ fontSize: '1.2em' }}>
-                      You can start by first exploring other&#39;s posts. Or, if you can&#39;t wait, here is the right place to start sharing your own stories.
+                      You can start by first exploring other&#39;s posts. Or, if you can&#39;t wait, here is the right place to start sharing your own storiessss.
                     </p>
                   </Grid.Column>
                 </Grid.Row>
