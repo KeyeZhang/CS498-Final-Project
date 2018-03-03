@@ -24,7 +24,7 @@ class Home extends Component {
 
             <Container text textAlign='center' style={{ marginTop: '-2em', marginBottom: '4em'}}>
               <div className="font">
-                <Header className = "font" as='h1' style={{ fontSize: '2em' }}>EXPLORE THE WONDERLAND</Header>
+                <Header className = "font" as='h1' style={{ fontSize: '2em' }}>EXPLORE THE WONDERLANDS</Header>
               </div>
             </Container>
 
